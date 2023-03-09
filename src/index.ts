@@ -19,8 +19,8 @@ export class EventRecorder {
     /**
      * recordEvent
      */
-    public recordEvent(name: string, data: {}): void {
-        this.sourcesApi.addDataItems({
+    public recordEvent(name: string, data: {}): Promise<void> {
+        return this.sourcesApi.addDataItems({
             orgName: this.orgName,
             projectName: this.projectName,
             sourceId: this.sourceId,
@@ -28,7 +28,7 @@ export class EventRecorder {
         });
     }
 
-    public identify(profileId: string, user_identifier: string, account_identifier: string | null) {
+    public identify(profileId: string, user_identifier: string, account_identifier: string | null): Promise<void> {
         return this.recordEvent('profile', {
             profileId: profileId,
             user_identifier: user_identifier,
@@ -41,13 +41,13 @@ export class EventRecorder {
      * @param consents example: 
      * ```
      * {
-     *   "regulation": "GDPR", // as ConsentRegulation
-     *   "purpose": "advertising",
-     *   "consented": true
+     *   regulation: 'GDPR', // as ConsentRegulation
+     *   purpose: 'advertising',
+     *   consented: true
      * }
      * ```
      */
     public trackConsents(consents: { regulation: ConsentRegulation, purpose: string, consented: boolean }[]) {
-        consents.forEach(e => this.recordEvent('profile', { regulation: e.regulation, purpose: e.purpose, consented: !!e.consented }));
+        return Promise.all(consents.map(e => this.recordEvent('profile', { regulation: e.regulation, purpose: e.purpose, consented: !!e.consented })));
     }
 }
