@@ -1,0 +1,6 @@
+disallowAdditionalPropertiesIfNotPresent: false
+legacyDiscriminatorBehavior: false
+supportsES6: true
+withInterfaces: false
+sagasAndRecords: false
+snapshot: true

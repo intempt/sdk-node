@@ -1,0 +1,16 @@
+.openapi-generator-ignore
+apis/GrowthBoardsApi.ts
+apis/index.ts
+index.ts
+models/CreateGrowthBoard.ts
+models/GroupByType.ts
+models/GrowthBoard.ts
+models/GrowthBoardAnalytic.ts
+models/GrowthBoardCollection.ts
+models/GrowthBoardCollectionEmbedded.ts
+models/GrowthBoardParameters.ts
+models/GrowthBoardReportEndpoint.ts
+models/GrowthBoardReportType.ts
+models/Order.ts
+models/index.ts
+runtime.ts
