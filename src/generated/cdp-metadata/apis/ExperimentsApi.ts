@@ -22,6 +22,7 @@ import type {
   Experiment,
   ExperimentAnalytics,
   ExperimentVariantTemplate,
+  JsonNode,
   UpdateExperiment,
   Variant,
 } from '../models';
@@ -40,6 +41,8 @@ import {
     ExperimentAnalyticsToJSON,
     ExperimentVariantTemplateFromJSON,
     ExperimentVariantTemplateToJSON,
+    JsonNodeFromJSON,
+    JsonNodeToJSON,
     UpdateExperimentFromJSON,
     UpdateExperimentToJSON,
     VariantFromJSON,
@@ -130,7 +133,7 @@ export class ExperimentsApi extends runtime.BaseAPI {
     /**
      * chooseVariant
      */
-    async chooseVariantRaw(requestParameters: ChooseVariantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<any>> {
+    async chooseVariantRaw(requestParameters: ChooseVariantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<JsonNode>> {
         if (requestParameters.orgName === null || requestParameters.orgName === undefined) {
             throw new runtime.RequiredError('orgName','Required parameter requestParameters.orgName was null or undefined when calling chooseVariant.');
         }
@@ -177,13 +180,13 @@ export class ExperimentsApi extends runtime.BaseAPI {
             body: ChooseVariantToJSON(requestParameters.chooseVariant),
         }, initOverrides);
 
-        return new runtime.TextApiResponse(response) as any;
+        return new runtime.JSONApiResponse(response, (jsonValue) => JsonNodeFromJSON(jsonValue));
     }
 
     /**
      * chooseVariant
      */
-    async chooseVariant(requestParameters: ChooseVariantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<any> {
+    async chooseVariant(requestParameters: ChooseVariantRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<JsonNode> {
         const response = await this.chooseVariantRaw(requestParameters, initOverrides);
         return await response.value();
     }
